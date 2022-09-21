@@ -11,6 +11,9 @@
     void reverse_queue();
     void sort();
     void saveAfile();
+    void search();
+    void LoadFile();
+
 
     int pri_que[MAX];
     int front, rear;
@@ -19,6 +22,7 @@
 
     {
         int n, ch;
+        printf("##############-Menu-########################");
         printf("\n1 - Insert an element into queue");
         printf("\n2 - Delete an element from queue");
         printf("\n3 - Display queue elements");
@@ -26,25 +30,29 @@
         printf("\n5 - Reverse the queue");
         printf("\n6 - Sort ascendent the queue");
         printf("\n7 - Save a file");
+        printf("\n8 - Search for a file");
+        printf("\n9 - Load from File");
+        printf("\n############-END of MENU-######################");
+
 
         create();
 
         while (1)
         {
-            printf("\nEnter your choice : ");    
+            printf("\nSelect the Option(1 to 9): ");    
             scanf("%d", &ch);
 
             switch (ch)
             {
 
             case 1: 
-                printf("\nEnter value to be inserted : ");
+                printf("\nValue to insert: ");
                 scanf("%d",&n);
                 insert_by_priority(n);
                 break;
 
             case 2:
-                printf("\nEnter value to delete : ");
+                printf("\nValue to delete: ");
                 scanf("%d",&n);
                 delete_by_priority(n);
                 break;
@@ -67,10 +75,18 @@
             case 7:
                 saveAfile();
                 break;
+            
+            case 8:
+                search();
+                break;
+
+            case 9:
+                LoadFile();
+                break;
 
 
             default: 
-                printf("\nChoice is incorrect, Enter a correct choice");
+                printf("\nEnter a suitable choice!");
 
             }
 
@@ -204,22 +220,70 @@
 
     void saveAfile()
     {
-        int num;
-   FILE *fptr;
+      
+    int i;
+    FILE *saveFIle  = fopen("saveFIle.txt", "w");
+    freopen(NULL, "w+", saveFIle);
 
-   
-   fptr = fopen("program.txt","w");
+    if(front == - 1)
+        printf("Queue is empty \n");
+    else
+    {
+        for (i = front; i != rear; i = (i + 1) % MAX)
+            fprintf(saveFIle, "%d ", pri_que[i]);
 
-   if(fptr == NULL)
-   {
-      printf("Error!");   
-      exit(1);             
-   }
-
-   printf("Enter num: ");
-   scanf("%d",&num);
-
-   fprintf(fptr,"%d",num);
-   fclose(fptr);
- 
+        fprintf(saveFIle, "%d ", pri_que[i]);
     }
+
+    fclose(saveFIle);
+    }
+
+    void LoadFile()
+    {
+        FILE* ptr;
+        int i;
+        front = 0; // with this the zero in front won't appear.
+        rear = -1;
+
+        ptr = fopen("LoadFromIt.txt", "r");
+
+        if (NULL == ptr) 
+        {
+        printf("file can't be opened \n");
+        }
+        else
+        {
+            printf("File had been opened!");
+            while(fscanf(ptr, "%d ", &pri_que[i]) != EOF)
+              {
+                i++;
+                rear++;
+              }
+        }
+    fclose(ptr);
+
+    }
+   
+
+    
+    void search() 
+    {
+    int s;
+    int find = 0;
+    printf("Search for: ");
+    scanf("%d", &s);
+
+    if(front == - 1)
+        printf("There is no element in queue! \n");
+    else{
+        for (int i = 0; i <= rear; i++) {
+            if (pri_que[i] == s) 
+                find = 1;
+        }
+        if (find == 1) {
+            printf("The element is %p in queue!\n", (void *) &s);
+        }
+        else 
+            printf("Element is missing from queue!\n");
+    }
+}
