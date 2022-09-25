@@ -1,8 +1,6 @@
-Lab1_queue_v2: Lab1_queue_v2.c
-	gcc -o Lab1_queue_v2 Lab1_queue_v2.o
-
-Lab1_queue_v2.o: Lab1_queue_v2.c
-	gcc -c Lab1_queue_v2.c
-
-clean:
-	rm Lab1_queue_v2.o
+queue2: queue2.c
+	gcc -o queue2 queue2.c
+Pqueue: Pqueue.c
+	gcc -o Pqueue Pqueue.c
+CircQueue: CircQueue.c
+	gcc -o CircQueue CircQueue.c
